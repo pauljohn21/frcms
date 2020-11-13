@@ -1,0 +1,8 @@
+rootProject.name = 'boot'
+include(
+        "auth",
+        "common:common-core",
+        "upms:upms-api",
+        "upms:upms-biz"
+
+)

@@ -1,0 +1,72 @@
+version: "3.8"
+networks:
+  network:
+    ipam:
+      driver: default
+      config:
+        - subnet: '177.7.0.0/16'
+services:
+  nacos:
+    image: nacos/nacos-server
+    container_name: register
+    restart: always
+    ports:
+      - 8848:8848
+    environment:
+      PREFER_HOST_MODE: hostname
+      MODE: standalone
+      JVM_XMS: 256m
+      JVM_XMX: 512m
+      JVM_MSS: 256m
+      JVM_XMN: 256m
+    volumes:
+      - ./docker/config/nacos/data:/home/nacos/data
+      - ./docker/log/nacos/logs/:/home/nacos/logs
+      - ./docker/config/nacos/init.d/custom.properties:/home/nacos/init.d/custom.properties
+    networks:
+      network:
+        ipv4_address: 177.7.0.11
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    ports:
+    - 5432:5432
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root123456
+      POSTGRES_DB: frcms
+    volumes:
+    - ./docker/data/postgres:/var/lib/postgresql/data
+
+
+
+  mysql:
+    build:
+      context: ./db
+    image: frcms-mysql
+    restart: always
+    container_name: mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    command:
+      --lower_case_table_names=1
+    volumes:
+      - ./docker/data/mysql:/var/lib/mysql
+    networks:
+      network:
+        ipv4_address: 177.7.0.12
+
+
+
+  redis:
+    image: redis
+    container_name: redis
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - ./docker/data/redis/data:/data
+

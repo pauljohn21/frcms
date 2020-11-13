@@ -1,0 +1,9 @@
+//公共核心模块
+dependencies {
+     "cn.hutool:hutool-all:${hutoolVersion}"
+    implementation "com.alibaba:transmittable-thread-local:${ttlVersion}"
+    implementation "io.swagger:swagger-annotations:${swaggerVersion}"
+    implementation 'javax.servlet:javax.servlet-api'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-json'
+}
